@@ -19,7 +19,7 @@ public:
         for(;start<nums.size();start++){
             if(nums[start] >= 0){
              cur_max = nums[start];
-            break;
+            break;****
             }
             
             if(nums[start]>cur_max)
