@@ -35,6 +35,60 @@ public:
 ```
 
 ```cpp
+//递归方法写的实验性质的记忆化
+class Solution {
+private:
+    //记忆化的存储数据结构用map更为合适
+    std::unordered_map<long long,long long> mem;
+public:
+    int coinChange(vector<int>& coins, int amount) {
+        // base case
+        if(amount < 0) return -1;
+        if(amount ==0) return 0;
+
+        //memory return
+        if(mem.find(amount)!=mem.end()) return mem[amount];
+
+        //general case
+        long long local_ans = std::numeric_limits<long long>::max();
+        for(long long i=0;i<coins.size();i++){
+            long long tmp = coinChange(coins,amount-coins[i]);
+            if(tmp==-1) continue;
+            local_ans = std::min(local_ans,tmp + 1);
+        }
+
+        //memory
+         return mem[amount]=local_ans;
+    }
+   
+};
+```
+
+### 错解合集
+
+```cpp
+//dp的状态是对的，但是因为amount可能特别大，导致遍历的量特别大导致超时
+class Solution {
+public:
+    int coinChange(vector<int>& coins, int amount) {
+        if(amount==0) return 0;
+        if(coins.size()==0) return -1;
+       std::vector<int> dp(amount+1,amount+1);
+       for(auto& coin:coins) {
+           if(coin<=amount)
+            dp[coin]=1;
+       }
+       for(int i=0;i<=amount;i++){
+           for(int j=0;j<i;j++){
+               dp[i] = std::min(dp[i],dp[j]+dp[i-j]);
+           }
+       }
+       return (dp[amount]==amount+1) ? -1:dp[amount];
+    }
+};
+```
+
+```cpp
 //这里dp的状态定义对了，但是dp的状态转移方程没有定义对导致出错，主要是对于动态规划中牵扯到集合不太了解
 class Solution {
 public:
@@ -67,3 +121,4 @@ public:
     }
 };
 ```
+
