@@ -8,6 +8,24 @@
 ## 题解
 
 ### 快慢指针
+```cpp
+//这是自己的实现，非常丑，好的实现参看 /数据结构/快慢指针总结.md
+class Solution {
+public:
+    ListNode* middleNode(ListNode* head) {
+        ListNode* fast = head;
+        ListNode* slow = head;
+        while(fast->next!=nullptr) {
+            slow=slow->next;
+            fast=fast->next;
+            if(fast->next==nullptr) {break;}
+            fast=fast->next;
+        }
+
+      return slow;
+    }
+};
+```
 
 ### 访问计数
 ```cpp
